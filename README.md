@@ -20,4 +20,7 @@
 ## 100MHz 기준
 <img width="379" height="87" alt="image" src="https://github.com/user-attachments/assets/7f563f67-7527-4e9c-9f63-faed56b3a195" />
 
+## 125MHz 기준
+<img width="379" height="87" alt="image" src="https://github.com/user-attachments/assets/c0b12540-ce5a-45c1-8894-f0842de84de0" />
+
 # 6. FPGA 같은 연산방식으로 ZYNQ 프로세서에서 돌린 결과 나오는 시간 및 CLOCK 수
