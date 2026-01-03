@@ -29,72 +29,122 @@
 # 6. FPGA 같은 연산방식으로 ZYNQ 프로세서에서 돌린 결과 나오는 시간 및 CLOCK 수
 
 
-# 🚀 FPGA-based MNIST CNN Accelerator
+# 📊 FPGA-based CNN Accelerator: A Post-Training Quantization (PTQ) Approach
 
-![Verilog](https://img.shields.io/badge/Verilog-HDL-blue) ![Python](https://img.shields.io/badge/Python-PyTorch-yellow) ![Vivado](https://img.shields.io/badge/Tool-Vivado-green)
+![Methodology](https://img.shields.io/badge/Method-PTQ-blueviolet) ![Framework](https://img.shields.io/badge/Train-PyTorch_Float32-orange) ![Hardware](https://img.shields.io/badge/Inference-Verilog_FixedPoint-blue) ![Device](https://img.shields.io/badge/Device-Zynq%2FArtix-green)
 
-## 📝 Project Overview
-이 프로젝트는 **Python(PyTorch)**으로 학습된 CNN 모델을 **Verilog HDL**을 사용하여 FPGA 상에서 하드웨어로 직접 구현한 결과물입니다.
-MNIST 손글씨 숫자 데이터를 인식하며, 외부 IP(Intellectual Property)를 사용하지 않고 **Line Buffer, Convolution PE, Fully Connected Layer** 등을 직접 설계하여 **Streaming Architecture**를 구현했습니다.
+## 📖 Project Abstract
+본 프로젝트는 **PTQ(Post-Training Quantization)** 기법을 활용하여 PyTorch로 학습된 CNN 모델을 FPGA 하드웨어 가속기로 구현한 결과물입니다.
 
-* **Target Device:** Xilinx FPGA (Zynq / Artix-7)
-* **Input Data:** 28x28 Grayscale Image (Serial Input)
-* **Architecture:** 2-Layer CNN + 1 FC Layer
-* **Performance:** * Inference Latency: ~1,000 Cycles/Image (approx. 8µs @ 125MHz)
-  * Hardware Accuracy: ~96.2% (Python Reference: 97.2%)
+일반적인 Float32 정밀도로 학습된 모델을 **8-bit Integer 기반의 하드웨어(Verilog)**로 이식하는 과정에서 발생하는 정확도 차이(Accuracy Gap)를 분석하고, **Software Simulation 결과와 Hardware Implementation 결과가 비트 단위까지 일치(Bit-True)**함을 입증했습니다.
+
+---
+
+## 🧠 Quantization Strategy (PTQ)
+실제 엣지 디바이스 환경을 고려하여, 재학습(QAT) 비용이 들지 않는 **Post-Training Quantization** 방식을 채택했습니다.
+
+| Feature | **My Approach (PTQ)** | Comparison (QAT) |
+| :--- | :--- | :--- |
+| **Training** | Standard Float32 Training | Quantization simulation during training |
+| **Weight Conversion** | Offline Conversion (Float → Int8) | Learned during training |
+| **H/W Approach** | **Bit-True w/ Software Simulation** | Minimized Quantization Loss |
 
 ---
 
 ## 🏗 System Architecture
 
-### 1. Software (Model Training)
-* **Framework:** PyTorch
-* **Network Structure:**
-  * `Input`: 28x28
-  * `Conv1`: 5x5 Kernel, 3 Channels, ReLU, MaxPool(2x2)
-  * `Conv2`: 5x5 Kernel, 3 Channels, ReLU, MaxPool(2x2)
+### 1. Model Architecture (Software)
+* **Input:** 28x28 Grayscale (MNIST)
+* **Layers:**
+  * `Conv1`: 5x5, 3ch, ReLU, MaxPool(2x2)
+  * `Conv2`: 5x5, 3ch, ReLU, MaxPool(2x2)
   * `FC Layer`: 48 Inputs → 10 Outputs
-* **Quantization:** 학습된 Float32 가중치(Weight)와 Bias를 Fixed-point(Integer) 포맷으로 변환하여 `.hex` 파일로 추출.
+* **Optimization:** Bias-Free 설계 및 파라미터 경량화
 
-### 2. Hardware (Verilog Design)
-이미지를 메모리에 저장하지 않고 픽셀이 들어오는 즉시 처리하는 **Streaming Pipeline** 구조를 채택했습니다.
-
-* **Line Buffer Unit:** 5x5 Convolution을 위해 입력 스트림을 버퍼링하여 Sliding Window를 생성.
-* **Processing Element (PE):** 병렬 MAC(Multiply-Accumulate) 연산 수행.
-* **Requantizer:** 연산 결과(Accumulation)를 다음 레이어 입력 비트 폭에 맞춰 Scaling (Bit Shift & Truncation).
-* **FC Controller:** 직렬화된 데이터를 받아 최종 Class Score를 계산.
-
----
-
-## 🔧 Troubleshooting & Challenges (Key Highlights)
-
-프로젝트 진행 중 겪었던 주요 기술적 난관과 해결 과정입니다.
-
-### 1. FC Layer Garbage Data Issue (Valid Signal Timing)
-* **문제 (Problem):** Convolution과 Pooling을 거친 데이터가 FC Layer로 진입할 때, 유효하지 않은 데이터(Garbage)가 섞여 들어가는 현상 발생. 이로 인해 특정 이미지에서 오답률이 급격히 상승함.
-* **원인 (Cause):** 앞단 **Line Buffer**에서 Sliding Window가 채워지는 초기 구간(Filling State)이나 행(Row)이 바뀔 때, `valid` 신호 제어가 정밀하지 않아 쓰레기 값을 유효한 데이터인 것처럼 출력하고 있었음.
-* **해결 (Solution):** FC Layer 입구에 필터를 다는 임시방편 대신, **Line Buffer의 Output Control Logic을 근본적으로 수정**함. Window 내 데이터가 모두 유효할 때만 정확히 `valid`가 High가 되도록 상태 머신을 개선하여 FC Layer로 깨끗한 데이터만 전달되도록 함.
-
-### 2. Vivado Synthesis Optimization Issue (Resource Usage ~0%)
-* **문제 (Problem):** Behavioral Simulation은 완벽하게 동작했으나, 실제 FPGA Implementation을 수행하면 **LUT/FF 사용량이 거의 0%**로 나오고 회로가 사라지는 현상 발생.
-* **원인 (Cause):** FC Layer 입력부에서 데이터 정합성을 맞추기 위해 **"정확히 48개의 데이터만 카운팅하여 받음"**과 같이 조건을 너무 **엄격(Strict)**하게 설정함. 합성 툴(Synthesis Tool)이 정적 분석 과정에서 특정 신호 도달이 불가능하다고 판단하여, FC Layer 전체를 "사용되지 않는 로직(Unused Logic)"으로 간주하고 삭제(Optimization)해버림.
-* **해결 (Solution):** 엄격한 카운터 조건 대신, 앞단에서 넘어오는 **Valid 신호 흐름(Data-driven)에 의존**하도록 설계를 유연하게 변경(Relaxation). 수정 후 정상적으로 리소스가 할당되고 비트스트림이 생성됨.
-
-### 3. Accuracy Drop (Quantization Error)
-* **현상:** Python 모델(97.2%) 대비 FPGA 시뮬레이션 정확도가 약 0.5% 낮음.
-* **결정:** Verilog 구현 시 복잡한 반올림(Rounding) 로직 대신 **단순 버림(Truncation)** 방식을 사용함. 0.5%의 정확도 손실은 하드웨어 리소스 절약과 타이밍 마진 확보를 위한 **Trade-off**로 판단하여 현재 구조를 유지함.
+### 2. Hardware Design (Verilog)
+* **Streaming Pipeline:** Line Buffer를 사용하여 전체 이미지를 저장하지 않고 픽셀 입력과 동시에 연산 수행.
+* **Resources:**
+  * **Line Buffer:** 5x5 Window generation
+  * **PE (Processing Element):** Parallel MAC Operations
+  * **Safety Logic:** Valid Signal Filtering for FC Layer
 
 ---
 
-## 📊 Results
+## 📉 Experimental Results
 
-### Simulation Waveform
-*(여기에 Vivado 시뮬레이션 파형 이미지를 캡처해서 넣으면 좋습니다)*
+### 1. Training Result (Python)
+PyTorch를 이용한 학습 결과, 10 Epoch 만에 **Test Accuracy 97.22%**를 달성했습니다.
 
-### Resource Utilization
-* **LUT:** (Insert Value)
-* **FF:** (Insert Value)
-* **BRAM:** (Insert Value)
-* **DSP:** (Insert Value)
+![Training Log](./images/train_log.png)
+*(Fig 1. Python Training Log showing 97.22% Test Accuracy)*
+
+### 2. Bit-True Verification (Crucial Achievement)
+하드웨어 설계의 무결성을 증명하기 위해 Python에서 하드웨어와 동일한 8-bit 제약 조건을 건 시뮬레이션(Golden Reference)과 실제 FPGA 출력을 비교했습니다.
+
+| Environment | Precision | Accuracy | Note |
+| :--- | :--- | :--- | :--- |
+| **Python Baseline** | Float32 | **97.22%** | Target |
+| **Python Sim (Quantized)** | Int8 | **96.60%** | **Golden Ref** |
+| **FPGA Hardware** | Int8 | **96.20%** | **Implementation** |
+
+![Python Verification](./images/py_verification.png)
+*(Fig 2. Python Simulation comparing 10k set and 1k subset accuracy)*
+
+> **Analysis:**
+> * Float32(97.2%)와 Int8(96.x%) 사이의 차이는 PTQ 방식의 양자화 손실(Quantization Loss) 및 하드웨어의 Truncation(버림) 방식에 기인합니다.
+> * **Python Sim(Int8)과 FPGA 결과가 오차 범위 내에서 일치**한다는 것은 Verilog 설계에 논리적 오류가 없으며 **Bit-True**하게 구현되었음을 증명합니다.
+
+### 3. FPGA Simulation & Performance
+Vivado 시뮬레이션 결과, 1000개의 Test 이미지에 대해 **96.2%**의 정확도를 확인했습니다.
+
+![FPGA TB Result](./images/fpga_result.png)
+*(Fig 3. FPGA Testbench Log: 96.2% Accuracy & Inference Cycles)*
+
+* **Clock Frequency:** 125 MHz (Target)
+* **Inference Latency:** **813 Cycles** / Image
+* **Throughput:** 약 **6.5 µs** per Image (@125MHz)
+
+### 4. Resource Utilization
+Implementation(Post-Route) 후 자원 사용량입니다. 효율적인 로직 설계를 통해 **DSP 사용량을 최소화(3%)**하고 LUT 위주로 구현했습니다.
+
+![Resource Utilization](./images/resource_util.png)
+*(Fig 4. Vivado Implementation Report)*
+
+| Resource | Used | Available | Utilization % |
+| :--- | :--- | :--- | :--- |
+| **LUT** | 14,643 | 53,200 | **27.52%** |
+| **FF** | 12,118 | 106,400 | **11.39%** |
+| **DSP** | 6 | 220 | **2.73%** |
+| **BRAM** | 0.5 | 140 | **<1%** |
 
 ---
+
+## 🔧 Troubleshooting & Challenges
+
+프로젝트 진행 중 발생한 주요 이슈와 해결 과정입니다.
+
+### 1. FC Layer Garbage Data Issue
+* **문제:** Convolution/Pooling을 거친 데이터가 FC Layer로 진입할 때 유효하지 않은 값(Garbage)이 섞여 오답률 상승.
+* **원인:** Line Buffer의 초기 채움(Filling) 구간에서 Valid 신호 제어가 정밀하지 못함.
+* **해결:** Valid 신호가 Window 내 유효 데이터가 꽉 찼을 때만 정확히 High가 되도록 **Control Logic을 재설계**하여 FC Layer로 깨끗한 데이터만 전달.
+
+### 2. Vivado Optimization (Resource ~0%)
+* **문제:** Behavioral Simulation은 정상이나, Implementation 시 회로가 통째로 삭제되어 리소스가 0에 수렴.
+* **원인:** FC Layer 입력부에서 데이터 개수(48개)를 너무 엄격하게 체크하는 카운터 로직 때문에 합성 툴이 "도달 불가능한 로직"으로 오판함.
+* **해결:** 엄격한 카운터 조건 대신 **Data-driven(Valid 신호 기반)** 방식으로 설계를 완화(Relaxation)하여 정상 합성 유도.
+
+### 3. Truncation Bias Analysis
+* **현상:** 반올림(Rounding)을 적용하지 않아 미세한 정확도 하락(약 0.5%) 관측.
+* **결정:** FPGA 리소스 절약과 타이밍 마진 확보를 위해 Rounding Logic을 추가하는 대신, **Truncation(버림)** 방식을 유지하고 이를 하드웨어 특성으로 수용함.
+
+---
+
+## 🚀 How to Run
+
+### Python (Training & Hex Gen)
+```bash
+# Train Model
+python _11_train_convnet.py --num_epochs 10
+
+# Export Weights (Float -> Int8 Hex)
+python export_weights.py
