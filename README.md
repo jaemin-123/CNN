@@ -1,6 +1,6 @@
 # 1. PYTHON 학습모델(실수) 정답률(학습데이터, 검증데이터)
 ## 학습시 정답률
-<img width="494" height="243" alt="image" src="https://github.com/user-attachments/assets/9fc5f1a3-b509-438b-bfd1-182c8801f916" />
+
 
 
 
@@ -17,7 +17,7 @@
 # 4. VIVADO CNN CORE SIMULATION 1000개 이미지 정답률 (C언어나 PYTHON이나 C언어로 돌린거랑 같은지) 
 ## FPGA 1000개 이미지 TB
 - python 보다 정확도 낮은이유 예상) 베릴로그 코드에 계산후 반올림 x
-<img width="301" height="88" alt="image" src="https://github.com/user-attachments/assets/fd12808e-e755-4751-94f5-7f865472dc9a" />
+
 
 # 5. CNN CORE 이미지 한개 추론에 필요한 CLOCK 수 
 ## 100MHz 기준
@@ -88,7 +88,10 @@ PyTorch를 이용한 학습 결과, 10 Epoch 만에 **Test Accuracy 97.22%**를 
 | **Python Sim (Quantized)** | Int8 | **96.60%** | **Golden Ref** |
 | **FPGA Hardware** | Int8 | **96.20%** | **Implementation** |
 
-![Python Verification](./images/py_verification.png)
+<img width="494" height="243" alt="image" src="https://github.com/user-attachments/assets/9fc5f1a3-b509-438b-bfd1-182c8801f916" />
+
+<img width="301" height="88" alt="image" src="https://github.com/user-attachments/assets/fd12808e-e755-4751-94f5-7f865472dc9a" />
+
 *(Fig 2. Python Simulation comparing 10k set and 1k subset accuracy)*
 
 > **Analysis:**
