@@ -100,15 +100,15 @@ PyTorch 학습 결과 **97.22%**의 정확도를 달성했으며, FPGA 동작을
 
 * **Latency & Speed:**
     * **Clock Cycles:** 815 Cycles / Image
-    * **Inference Time:** **6.5 µs** (@125MHz)
+    * **Inference Time:** **6.52 µs** (@125MHz)
 
 ### 4. Resource Utilization
 Implementation(Post-Route) 결과입니다. **DSP를 단 6개(3%)만 사용**하면서도 효율적인 CNN 가속 성능을 확보했습니다.
 
 <p align="center">
-  <img width="573" height="271" alt="Resource Graph" src="https://github.com/user-attachments/assets/00e4130f-dd25-4681-86d9-c33c94a248d5" />
+  <img width="577" height="275" alt="image" src="https://github.com/user-attachments/assets/ff48e2b6-efd9-4069-a4d8-2378b4cfb891" />
   <br>
-  <img width="542" height="188" alt="Resource Table" src="https://github.com/user-attachments/assets/95fe40ef-a96c-48bd-a4f9-446b75aba645" />
+  <img width="577" height="272" alt="image" src="https://github.com/user-attachments/assets/53089b45-74c0-44cb-9be8-81be13baa8e9" />
 </p>
 *(Fig 5. Vivado Implementation Report)*
 
