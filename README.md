@@ -2,6 +2,9 @@
 ## 학습시 정답률
 <img width="494" height="243" alt="image" src="https://github.com/user-attachments/assets/9fc5f1a3-b509-438b-bfd1-182c8801f916" />
 
+![Uploading image.png…]()
+
+
 # 2. FPGA 검증 정수 기반 정답률 (10000개, 1000개)
 ## FPGA 동작 기준
 <img width="654" height="61" alt="image" src="https://github.com/user-attachments/assets/f8b3a2a6-f2d7-4e22-a421-9b523d51b32f" />
