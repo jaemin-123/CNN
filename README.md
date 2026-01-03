@@ -24,7 +24,7 @@
 <img width="379" height="87" alt="image" src="https://github.com/user-attachments/assets/7f563f67-7527-4e9c-9f63-faed56b3a195" />
 
 ## 125MHz 기준
-<img width="379" height="87" alt="image" src="https://github.com/user-attachments/assets/c0b12540-ce5a-45c1-8894-f0842de84de0" />
+
 
 # 6. FPGA 같은 연산방식으로 ZYNQ 프로세서에서 돌린 결과 나오는 시간 및 CLOCK 수
 
@@ -101,7 +101,7 @@ PyTorch를 이용한 학습 결과, 10 Epoch 만에 **Test Accuracy 97.22%**를 
 ### 3. FPGA Simulation & Performance
 Vivado 시뮬레이션 결과, 1000개의 Test 이미지에 대해 **96.2%**의 정확도를 확인했습니다.
 
-![FPGA TB Result](./images/fpga_result.png)
+<img width="379" height="87" alt="image" src="https://github.com/user-attachments/assets/c0b12540-ce5a-45c1-8894-f0842de84de0" />
 *(Fig 3. FPGA Testbench Log: 96.2% Accuracy & Inference Cycles)*
 
 * **Clock Frequency:** 125 MHz (Target)
