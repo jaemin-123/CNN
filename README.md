@@ -7,7 +7,7 @@
 
 # 2. FPGA 검증 정수 기반 정답률 (10000개, 1000개)
 ## FPGA 동작 기준
-<img width="654" height="61" alt="image" src="https://github.com/user-attachments/assets/f8b3a2a6-f2d7-4e22-a421-9b523d51b32f" />
+
 
 # 3. VIVADO IMPLEMENTATION 자원사용량
 <img width="573" height="271" alt="image" src="https://github.com/user-attachments/assets/00e4130f-dd25-4681-86d9-c33c94a248d5" />
@@ -88,7 +88,7 @@ PyTorch를 이용한 학습 결과, 10 Epoch 만에 **Test Accuracy 97.22%**를 
 | **Python Sim (Quantized)** | Int8 | **96.60%** | **Golden Ref** |
 | **FPGA Hardware** | Int8 | **96.20%** | **Implementation** |
 
-<img width="494" height="243" alt="image" src="https://github.com/user-attachments/assets/9fc5f1a3-b509-438b-bfd1-182c8801f916" />
+<img width="654" height="61" alt="image" src="https://github.com/user-attachments/assets/f8b3a2a6-f2d7-4e22-a421-9b523d51b32f" />
 
 <img width="301" height="88" alt="image" src="https://github.com/user-attachments/assets/fd12808e-e755-4751-94f5-7f865472dc9a" />
 
