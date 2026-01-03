@@ -98,13 +98,3 @@ MNIST 손글씨 숫자 데이터를 인식하며, 외부 IP(Intellectual Propert
 * **DSP:** (Insert Value)
 
 ---
-
-## 🚀 How to Run
-
-### 1. Training (Python)
-```bash
-# 데이터셋 다운로드 및 모델 학습
-python _11_train_convnet.py --num_epochs 10
-
-# 학습된 가중치 추출 (hex 파일 생성)
-python export_weights.py
