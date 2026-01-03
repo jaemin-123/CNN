@@ -93,12 +93,13 @@ PyTorch 학습 결과 **97.22%**의 정확도를 달성했으며, FPGA 동작을
 실제 FPGA Testbench 시뮬레이션 결과, 1000개의 Test 이미지에 대해 **96.2%**의 정확도를 기록했습니다.
 
 <p align="center">
-<img width="379" height="87" alt="FPGA Result" src="https://github.com/user-attachments/assets/c0b12540-ce5a-45c1-8894-f0842de84de0" />
+<img width="379" height="87" alt="image" src="https://github.com/user-attachments/assets/8eb03604-ade8-4096-9622-fd6abb462763" />
+
 </p>
 *(Fig 4. FPGA Simulation Result: 96.2% Accuracy & Cycle Counts)*
 
 * **Latency & Speed:**
-    * **Clock Cycles:** 813 Cycles / Image
+    * **Clock Cycles:** 815 Cycles / Image
     * **Inference Time:** **6.5 µs** (@125MHz)
 
 ### 4. Resource Utilization
