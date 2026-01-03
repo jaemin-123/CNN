@@ -17,4 +17,7 @@
 <img width="301" height="88" alt="image" src="https://github.com/user-attachments/assets/fd12808e-e755-4751-94f5-7f865472dc9a" />
 
 # 5. CNN CORE 이미지 한개 추론에 필요한 CLOCK 수 
+## 100MHz 기준
+<img width="379" height="87" alt="image" src="https://github.com/user-attachments/assets/7f563f67-7527-4e9c-9f63-faed56b3a195" />
+
 # 6. FPGA 같은 연산방식으로 ZYNQ 프로세서에서 돌린 결과 나오는 시간 및 CLOCK 수
