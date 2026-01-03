@@ -2,7 +2,7 @@
 ## 학습시 정답률
 <img width="494" height="243" alt="image" src="https://github.com/user-attachments/assets/9fc5f1a3-b509-438b-bfd1-182c8801f916" />
 
-<img width="842" height="194" alt="image" src="https://github.com/user-attachments/assets/b22f507b-6c67-4807-8a3d-eb17b35fc61a" />
+
 
 
 # 2. FPGA 검증 정수 기반 정답률 (10000개, 1000개)
@@ -75,7 +75,8 @@
 ### 1. Training Result (Python)
 PyTorch를 이용한 학습 결과, 10 Epoch 만에 **Test Accuracy 97.22%**를 달성했습니다.
 
-![Training Log](./images/train_log.png)
+<img width="842" height="194" alt="image" src="https://github.com/user-attachments/assets/b22f507b-6c67-4807-8a3d-eb17b35fc61a" />
+
 *(Fig 1. Python Training Log showing 97.22% Test Accuracy)*
 
 ### 2. Bit-True Verification (Crucial Achievement)
