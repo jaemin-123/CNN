@@ -10,9 +10,7 @@
 
 
 # 3. VIVADO IMPLEMENTATION 자원사용량
-<img width="573" height="271" alt="image" src="https://github.com/user-attachments/assets/00e4130f-dd25-4681-86d9-c33c94a248d5" />
 
-<img width="542" height="188" alt="image" src="https://github.com/user-attachments/assets/95fe40ef-a96c-48bd-a4f9-446b75aba645" />
 
 # 4. VIVADO CNN CORE SIMULATION 1000개 이미지 정답률 (C언어나 PYTHON이나 C언어로 돌린거랑 같은지) 
 ## FPGA 1000개 이미지 TB
@@ -111,7 +109,9 @@ Vivado 시뮬레이션 결과, 1000개의 Test 이미지에 대해 **96.2%**의 
 ### 4. Resource Utilization
 Implementation(Post-Route) 후 자원 사용량입니다. 효율적인 로직 설계를 통해 **DSP 사용량을 최소화(3%)**하고 LUT 위주로 구현했습니다.
 
-![Resource Utilization](./images/resource_util.png)
+<img width="573" height="271" alt="image" src="https://github.com/user-attachments/assets/00e4130f-dd25-4681-86d9-c33c94a248d5" />
+
+<img width="542" height="188" alt="image" src="https://github.com/user-attachments/assets/95fe40ef-a96c-48bd-a4f9-446b75aba645" />
 *(Fig 4. Vivado Implementation Report)*
 
 | Resource | Used | Available | Utilization % |
