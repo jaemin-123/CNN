@@ -41,7 +41,7 @@ MNIST 손글씨 숫자 데이터를 인식하며, 외부 IP(Intellectual Propert
 * **Input Data:** 28x28 Grayscale Image (Serial Input)
 * **Architecture:** 2-Layer CNN + 1 FC Layer
 * **Performance:** * Inference Latency: ~1,000 Cycles/Image (approx. 8µs @ 125MHz)
-  * Hardware Accuracy: ~96.7% (Python Reference: 97.2%)
+  * Hardware Accuracy: ~96.2% (Python Reference: 97.2%)
 
 ---
 
