@@ -141,10 +141,10 @@ Implementation(Post-Route) 후 자원 사용량입니다. 효율적인 로직 �
 * **현상:** 반올림(Rounding)을 적용하지 않아 미세한 정확도 하락(약 0.5%) 관측.
 * **결정:** FPGA 리소스 절약과 타이밍 마진 확보를 위해 Rounding Logic을 추가하는 대신, **Truncation(버림)** 방식을 유지하고 이를 하드웨어 특성으로 수용함.
 
-### 4. Timing Violation at 125MHz (Pipeline Optimization)
-* **문제:** 목표 동작 주파수인 125MHz에서 일부 경로(Critical Path)의 Timing Setup Violation 발생.
-* **원인:** Convolution 연산과 Accumulation이 한 클럭 내에 너무 길게 연결되어 있어 전파 지연(Propagation Delay)이 클럭 주기를 초과함.
-* **해결:** 연산기(PE) 내부와 Layer 간 연결 부위에 **Pipeline Register**를 추가하여 긴 조합 회로(Combinational Logic) 경로를 분할(Retiming). 이를 통해 125MHz 타이밍 조건을 만족하고 안정적인 동작을 확보함.
+### 4. Timing Violation at 125MHz (Intra-Module Pipelining)
+* **문제:** 목표 동작 주파수인 125MHz (Period 8ns)에서 Conv PE 및 FC Layer 내부의 긴 조합 회로(MAC 연산 등)로 인해 Setup Time Violation 발생.
+* **원인:** 레이어 간 연결이 아닌, **단일 연산 모듈(PE, FC Unit) 내부**의 Critical Path가 한 클럭 주기를 초과함.
+* **해결:** 연산기 내부의 곱셈과 덧셈, 활성화 함수(ReLU) 사이에 **Pipeline Register**를 삽입하여 Critical Path를 분할함. 이를 통해 Latency는 소폭 증가했으나 125MHz 동작 타이밍을 안정적으로 확보함.
 
 ---
 
