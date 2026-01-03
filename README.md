@@ -16,7 +16,7 @@
 이 프로젝트의 핵심은 데이터가 멈추지 않고 흐르는 **Fully Pipelined Structure**입니다.
 
 <p align="center">
-  <img width="1086" height="192" alt="image" src="https://github.com/user-attachments/assets/dfa742c2-2823-4ce1-bc24-2c901094f760" />
+  <img width="1501" height="219" alt="image" src="https://github.com/user-attachments/assets/da564078-a193-4ba8-b41f-06c653d4f79f" />
 </p>
 *(Fig 1. Simulation Waveform showing the Data Flow)*
 
