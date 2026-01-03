@@ -1,32 +1,3 @@
-# 1. PYTHON 학습모델(실수) 정답률(학습데이터, 검증데이터)
-## 학습시 정답률
-
-
-
-
-
-# 2. FPGA 검증 정수 기반 정답률 (10000개, 1000개)
-## FPGA 동작 기준
-
-
-# 3. VIVADO IMPLEMENTATION 자원사용량
-
-
-# 4. VIVADO CNN CORE SIMULATION 1000개 이미지 정답률 (C언어나 PYTHON이나 C언어로 돌린거랑 같은지) 
-## FPGA 1000개 이미지 TB
-- python 보다 정확도 낮은이유 예상) 베릴로그 코드에 계산후 반올림 x
-
-
-# 5. CNN CORE 이미지 한개 추론에 필요한 CLOCK 수 
-## 100MHz 기준
-<img width="379" height="87" alt="image" src="https://github.com/user-attachments/assets/7f563f67-7527-4e9c-9f63-faed56b3a195" />
-
-## 125MHz 기준
-
-
-# 6. FPGA 같은 연산방식으로 ZYNQ 프로세서에서 돌린 결과 나오는 시간 및 CLOCK 수
-
-
 # 📊 FPGA-based CNN Accelerator: A Post-Training Quantization (PTQ) Approach
 
 ![Methodology](https://img.shields.io/badge/Method-PTQ-blueviolet) ![Framework](https://img.shields.io/badge/Train-PyTorch_Float32-orange) ![Hardware](https://img.shields.io/badge/Inference-Verilog_FixedPoint-blue) ![Device](https://img.shields.io/badge/Device-Zynq%2FArtix-green)
