@@ -92,9 +92,11 @@ PyTorch를 이용한 학습 결과, 10 Epoch 만에 **Test Accuracy 97.22%**를 
 
 *(Fig 2. Python Simulation comparing 10k set and 1k subset accuracy)*
 
-> **Analysis:**
-> * Float32(97.2%)와 Int8(96.x%) 사이의 차이는 PTQ 방식의 양자화 손실(Quantization Loss) 및 하드웨어의 Truncation(버림) 방식에 기인합니다.
-> * **Python Sim(Int8)과 FPGA 결과가 오차 범위 내에서 일치**한다는 것은 Verilog 설계에 논리적 오류가 없으며 **Bit-True**하게 구현되었음을 증명합니다.
+> **Detailed Analysis:**
+> 1.  **Quantization Loss (97.2% → 96.6%):** >     * 실수(Float32)를 8-bit 정수로 변환하는 과정에서 발생한 일반적인 해상도 손실입니다.
+> 2.  **Rounding vs Truncation (96.6% → 96.2%):**
+>     * Python 시뮬레이션은 정수 변환 시 **반올림(Round-to-nearest)**을 수행했으나, FPGA 하드웨어는 리소스 효율성을 위해 **버림(Truncation)** 방식을 채택했습니다.
+>     * 이로 인해 FPGA 결과가 Python Int8 시뮬레이션 대비 약 **0.4%** 낮게 측정되었으나, 이는 설계 의도에 부합하는 허용 가능한 오차 범위입니다.
 
 ### 3. FPGA Simulation & Performance
 Vivado 시뮬레이션 결과, 1000개의 Test 이미지에 대해 **96.2%**의 정확도를 확인했습니다.
