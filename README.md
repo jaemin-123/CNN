@@ -120,13 +120,3 @@ Implementation(Post-Route) 후 자원 사용량입니다. 효율적인 로직 �
 * **해결:** 연산기 내부의 곱셈과 덧셈, 활성화 함수(ReLU) 사이에 **Pipeline Register**를 삽입하여 Critical Path를 분할함. 이를 통해 Latency는 소폭 증가했으나 125MHz 동작 타이밍을 안정적으로 확보함.
 
 ---
-
-## 🚀 How to Run
-
-### Python (Training & Hex Gen)
-```bash
-# Train Model
-python _11_train_convnet.py --num_epochs 10
-
-# Export Weights (Float -> Int8 Hex)
-python export_weights.py
