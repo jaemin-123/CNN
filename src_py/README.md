@@ -14,7 +14,7 @@
 ---
 
 ## 2. Model Training & Preprocessing (학습 및 전처리)
-**File:** `scripts/_11_train_convnet.py`
+**File:** `scripts/_11_conv.py`
 
 하드웨어 구현을 최적화하기 위해 학습 단계에서부터 하드웨어의 제약 사항을 고려하여 모델을 설계했습니다.
 
