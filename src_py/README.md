@@ -89,15 +89,3 @@ Python으로 작성된 하드웨어 동작 시뮬레이터와 실제 Verilog RTL
 * **Result:** 초기 가중치 순서 불일치 문제를 해결하고, 전처리 상수를 업데이트한 결과 **96% 이상의 정확도**를 달성하며 SW와 HW 결과가 일치함을 확인했습니다.
 
 ---
----
-
-## Appendix: Key Code Snippets
-
-### CODE_INSERT_1: Data Normalization (in `_11_train_convnet.py`)
-```python
-# 하드웨어 입력 조건과 동일한 분포를 만들기 위한 전처리
-transform = transforms.Compose([
-    transforms.ToTensor(), 
-    # Mean: 0.1307, Std: 0.3081 (MNIST Dataset Statistics)
-    transforms.Normalize((0.1307,), (0.3081,)) 
-])
