@@ -14,7 +14,7 @@
 ---
 
 ## 2. Model Training & Preprocessing (학습 및 전처리)
-**File:** `scripts/_11_conv.py`
+**File:** `src_py/_11_conv.py`
 
 하드웨어 구현을 최적화하기 위해 학습 단계에서부터 하드웨어의 제약 사항을 고려하여 모델을 설계했습니다.
 
@@ -61,7 +61,7 @@ FPGA 내부에서 부동소수점(Float) 나눗셈을 수행하는 것은 면적
 ---
 
 ## 4. Post-Training Quantization (사후 양자화)
-**File:** `scripts/_02_quantize_package_new.py`
+**File:** `src_py/_02_quantize_package_new.py`
 
 학습된 Float32 가중치를 FPGA 연산에 맞게 Int8로 변환하기 위해 NVIDIA의 `pytorch-quantization` 툴킷을 사용했습니다.
 
