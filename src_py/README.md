@@ -21,7 +21,14 @@
 ### 2.1 Why Normalization? (왜 정규화를 했는가?)
 학습 시 입력 데이터(0~255)를 그대로 사용하지 않고, 평균 0.1307, 표준편차 0.3081로 **정규화(Normalization)**하여 학습했습니다.
 
-## CODE_INSERT_1
+```python
+# 하드웨어 입력 조건과 동일한 분포를 만들기 위한 전처리
+transform = transforms.Compose([
+    transforms.ToTensor(), 
+    # Mean: 0.1307, Std: 0.3081 (MNIST Dataset Statistics)
+    transforms.Normalize((0.1307,), (0.3081,)) 
+])
+```
 
 이 전처리 과정은 단순한 학습 성능 향상뿐만 아니라 **하드웨어 구현**을 위해 필수적입니다.
 
@@ -58,7 +65,17 @@ FPGA 내부에서 부동소수점(Float) 나눗셈을 수행하는 것은 면적
 
 학습된 Float32 가중치를 FPGA 연산에 맞게 Int8로 변환하기 위해 NVIDIA의 `pytorch-quantization` 툴킷을 사용했습니다.
 
-## CODE_INSERT_2
+```python
+# Entropy 기반의 Calibration을 통해 최적의 스케일(amax) 산출
+def collect_stats(model, data_loader, num_bins):
+    module.enable_calib()  # 캘리브레이션 모드 활성화
+    model(x)               # 데이터 순전파(Forward)를 통해 히스토그램 수집
+
+# 결정된 스케일을 기반으로 Float32 -> Int8 변환
+# S = 127 / amax
+scale = weight * (127 / s_w)
+quantized_weight = torch.clamp(scale.round(), min=-127, max=127).to(int)
+```
 
 * **Calibration:** 입력 데이터의 분포(Histogram)를 수집하고, 정보 손실(Entropy)이 가장 적은 최적의 범위(`amax`)를 찾아 스케일링 팩터를 결정했습니다.
 * **Scale Factor Extraction:** 하드웨어의 `Requantizer` 모듈에서 나눗셈 없이 비트 시프트만으로 연산하기 위해, 스케일의 역수(Inverse Scale)를 미리 계산하여 `.th` 파일에 저장했습니다.
