@@ -1,3 +1,4 @@
+# !!학습 다시 해서 수정 필요!!
 # 🚀 FPGA-based CNN Accelerator: A Post-Training Quantization (PTQ) Approach
 
 ![Methodology](https://img.shields.io/badge/Method-PTQ-blueviolet) ![Framework](https://img.shields.io/badge/Train-PyTorch_Float32-orange) ![Hardware](https://img.shields.io/badge/Inference-Verilog_FixedPoint-blue) ![Performance](https://img.shields.io/badge/Freq-125MHz-green)
