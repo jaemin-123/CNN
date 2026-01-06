@@ -1,4 +1,4 @@
-
+# !!학습 다시해서 수정 필요!!
 # Project: MNIST CNN Implementation on FPGA (SW-HW Co-design)
 
 ## 1. Project Overview
